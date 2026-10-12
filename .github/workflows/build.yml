@@ -29,7 +29,7 @@ jobs:
           sudo apt update -qq
           sudo apt install -y -qq git zip unzip autoconf automake libtool pkg-config zlib1g-dev libffi-dev libssl-dev build-essential ccache libltdl-dev
 
-      - name: Instalar Buildozer y dependencias compatibles
+      - name: Instalar Buildozer y Cython
         run: |
           pip install --upgrade pip
           pip install "cython<3.0" buildozer virtualenv
@@ -50,4 +50,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: logs-error
-          path: .buildozer/android/platform/build-arm64-v8a_armeabi-v7a/dists/**/build.log
+          path: .buildozer/**/build.log
