@@ -13,6 +13,12 @@ jobs:
       - name: Descargar codigo
         uses: actions/checkout@v4
 
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
@@ -21,19 +27,27 @@ jobs:
       - name: Instalar dependencias del sistema
         run: |
           sudo apt update -qq
-          sudo apt install -y -qq git zip unzip openjdk-17-jdk autoconf automake libtool pkg-config zlib1g-dev libffi-dev libssl-dev build-essential ccache libltdl-dev
+          sudo apt install -y -qq git zip unzip autoconf automake libtool pkg-config zlib1g-dev libffi-dev libssl-dev build-essential ccache libltdl-dev
 
-      - name: Instalar Buildozer y Cython
+      - name: Instalar Buildozer y dependencias compatibles
         run: |
           pip install --upgrade pip
-          pip install --upgrade buildozer cython virtualenv
+          pip install "cython<3.0" buildozer virtualenv
 
       - name: Compilar APK con Buildozer
         run: |
-          buildozer -v android debug
+          yes | buildozer -v android debug
 
       - name: Subir APK generado
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: Finanzas-APK
           path: bin/*.apk
+
+      - name: Subir logs en caso de error
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-error
+          path: .buildozer/android/platform/build-arm64-v8a_armeabi-v7a/dists/**/build.log

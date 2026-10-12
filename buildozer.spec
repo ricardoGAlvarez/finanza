@@ -5,7 +5,7 @@ package.domain = org.ejemplo
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ttf,db
 version = 0.1
-requirements = python3,kivy==2.3.0,kivymd==1.2.0,sqlite3,pillow
+requirements = python3,kivy==2.3.0,https://github.com/kivymd/KivyMD/archive/master.zip,pillow
 orientation = portrait
 osx.python_version = 3
 osx.kivy_version = 1.9.1
@@ -15,7 +15,7 @@ android.api = 33
 android.minapi = 21
 android.ndk = 25b
 android.accept_sdk_license = True
-android.archs = arm64-v8a, armeabi-v7a
+android.archs = arm64-v8a
 
 [buildozer]
 log_level = 2
